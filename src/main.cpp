@@ -1,10 +1,21 @@
 #include <iostream>
 using namespace std;
 #include "workerManager.hpp"
+#include "worker.h"
+#include "employee.h"
+#include "manager.h"
+#include "boss.h"
 
 
+void test(){
+    Worker * worker =NULL;
+    worker = new Boss(1,"lily",1);
+    worker->showInfo();
+    delete worker;
+}
 int main()
 {   
+    test();
     
     WorkerManager wm;
     wm.Show_menu();
