@@ -15,7 +15,7 @@ void test(){
 }
 int main()
 {   
-    test();
+    // test();
     
     WorkerManager wm;
     wm.Show_menu();
@@ -26,7 +26,7 @@ int main()
         case 0:
             wm.exitSystem();
         case 1:
-            break;
+            wm.Add_Emp();
         case 2:
             break;
         case 3:

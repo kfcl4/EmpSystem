@@ -3,6 +3,8 @@
  //头文件只包含函数声明
 using namespace std;
 #include "worker.h"
+#ifndef MANAGER_H
+#define MANAGER_H
 
 class Manager:public Worker{
     public:
@@ -10,3 +12,5 @@ class Manager:public Worker{
         virtual void showInfo();
         virtual string getDeptName();
 };
+
+#endif
