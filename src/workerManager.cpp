@@ -1,15 +1,37 @@
 #include <iostream>
 using namespace std;
+#include <fstream>
 #include "workerManager.hpp"
 
 WorkerManager::WorkerManager(){
-    this->m_EmpNum=0;
-    this->m_EmpArray=NULL;
+    
+
+    ifstream ifs;
+    ifs.open(FILENAME,ios::in);
+    if (!ifs.is_open()){
+        cout<<"no such file"<<endl;
+        this->m_EmpNum=0;
+        this->m_FileIsEmpty=true;
+        this->m_EmpArray=NULL;
+        ifs.close();
+        return;
+    }
+
+
+    //文件存在但是没有记录
+    char ch;
+    ifs>>ch;
+    if (ifs.eof()){//ifs.eof() 用于检查文件输入流是否到达文件末尾。
+        cout<<"file is empty"<<endl;
+        this->m_EmpNum=0;
+        this->m_FileIsEmpty=true;
+        this->m_EmpArray=NULL;
+        ifs.close();
+        return;
+    }
 
 }
-WorkerManager::~WorkerManager(){
 
-}
 void WorkerManager::Show_menu(){
     cout<<"*********************"<<endl;
     
@@ -52,11 +74,13 @@ void WorkerManager::Add_Emp(){
             int dSelect;
             cout<<"input the "<<i+1 << "employee 's id"<<endl;
             cin>>id;
+            cin.ignore();//清除输入缓冲区中的换行符
             cout<<"input the "<<i+1 << "employee 's name"<<endl;
-            cin>>name;
+            getline(cin,name);//使用getline读取包含空格的名字
 
             cout<<"input the employee 's department. 1 for employee, 2 for manager, 3 for boss"<<endl;
             cin>>dSelect ;
+            cin.ignore();
 
             Worker* worker=NULL;
             switch (dSelect){
@@ -78,13 +102,32 @@ void WorkerManager::Add_Emp(){
         delete [] this->m_EmpArray;//释放原有空间
         this->m_EmpArray=newSpace;
         this->m_EmpNum=newSize;
+        this->m_FileIsEmpty=false;
         cout<<"you have added " <<addNum<<"Employees"<<endl;
+        this->save();
+        cout<<"new input has been saved in file"<<endl;
 
     }
     else{
         cout<<"wrong data"<<endl;
     }
-    system("pause");
-    system("cls");//清空控制台窗口的内容
+    // system("pause");
+    // system("cls");//清空控制台窗口的内容
 
+}
+WorkerManager::~WorkerManager(){
+    if (this->m_EmpArray!=NULL){
+        delete [] this->m_EmpArray;
+        this->m_EmpArray=NULL;
+    }
+}
+void WorkerManager::save(){
+    ofstream ofs;
+    ofs.open(FILENAME,ios::out);
+    for (int i=0;i<this->m_EmpNum;i++){
+        ofs<<this->m_EmpArray[i]->m_ID<<" "
+        <<this->m_EmpArray[i]->m_Name<<" "
+        <<this->m_EmpArray[i]->m_DeptID<<endl;
+    }
+    ofs.close();
 }
