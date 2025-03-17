@@ -22,6 +22,9 @@ class WorkerManager{
         void Add_Emp();
         void save();//保存文件
         bool m_FileIsEmpty;//判断现在文件是否为空
+        int get_EmpNum();
+        void init_Emp();
+        void Show_Emp();
 };
 
 

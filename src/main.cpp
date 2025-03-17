@@ -29,7 +29,7 @@ int main()
             case 1:
                 wm.Add_Emp();
             case 2:
-                break;
+                wm.Show_Emp();
             case 3:
                 break;
             case 4:

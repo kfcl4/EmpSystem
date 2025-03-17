@@ -13,6 +13,7 @@ class Worker{
         int m_ID;
         string m_Name;
         int m_DeptID;
+        
 
 };
 

@@ -30,6 +30,19 @@ WorkerManager::WorkerManager(){
         return;
     }
 
+    //文件存在并且有记录人数
+    int num=this->get_EmpNum();
+    cout<<"the number of employees is "<<num<<endl;
+    
+    
+	this->m_EmpNum = num;
+    this->m_FileIsEmpty=false;
+	this->m_EmpArray = new Worker * [this->m_EmpNum]; //先开辟空间，然后初始化数组
+	this->init_Emp();
+    for (int i=0;i<this->m_EmpNum;i++){
+        cout<<"id: "<<this->m_EmpArray[i]->m_ID<<"name: "<<this->m_EmpArray[i]->m_Name<<endl;
+    }
+
 }
 
 void WorkerManager::Show_menu(){
@@ -111,7 +124,7 @@ void WorkerManager::Add_Emp(){
     else{
         cout<<"wrong data"<<endl;
     }
-    // system("pause");
+    system("pause");
     // system("cls");//清空控制台窗口的内容
 
 }
@@ -130,4 +143,59 @@ void WorkerManager::save(){
         <<this->m_EmpArray[i]->m_DeptID<<endl;
     }
     ofs.close();
+}
+
+int WorkerManager:: get_EmpNum(){
+    ifstream ifs;
+    ifs.open(FILENAME,ios::in);
+    int id;
+    string name;
+    int dId;
+    int num=0;
+    while (ifs>>id && ifs >>name && ifs>>dId){
+        num++;//统计人数变量
+    }
+    return num;
+}
+void WorkerManager::init_Emp(){
+    ifstream ifs;
+    ifs.open(FILENAME,ios::in);
+    int id;
+    string name;
+    int dId;
+    int index=0;
+    while (ifs >>id  && ifs >> name && ifs >> dId)//读取数据
+	{
+		Worker* worker = NULL;
+		//根据不同的部门id创建不同对象
+		if (dId == 1)//1普通职工
+		{
+			worker = new Employee(id, name, 1);
+		}
+		else if(dId==2)//2经理
+		{
+			worker = new Manager(id, name, 2);
+		}
+		else//3老板
+		{
+			worker = new Boss(id, name, 3);
+		}
+		//存放在数组中
+		this->m_EmpArray[index] = worker;
+		index++;
+	}
+	//关闭文件
+	ifs.close();
+}
+
+void WorkerManager::Show_Emp(){
+    if (this->m_FileIsEmpty){
+        cout<<"no records!"<<endl;
+    }else{
+        for (int i=0;i<m_EmpNum;i++){
+            this->m_EmpArray[i]->showInfo();
+        }
+    }
+    system("pause");
+    
 }
