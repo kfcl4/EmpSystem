@@ -363,6 +363,28 @@ void WorkerManager::Find_Emp(){
 }
 
 
+void WorkerManager::Sort_Emp(){
+    if (this->m_FileIsEmpty){
+        cout<<"no such file or file is empty"<<endl;
+        system("pause");
+        system("cls");
+    }
+    else{
+        cout<<"how do you want to sort"<<endl;
+        cout<<"1. by id"<<endl;
+        cout<<"2. by name"<<endl;
+        int select=0;
+        cin>>select;
+
+
+
+
+
+
+
+    }
+}
+
 
 
 
