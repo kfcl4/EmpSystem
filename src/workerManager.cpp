@@ -125,7 +125,7 @@ void WorkerManager::Add_Emp(){
         cout<<"wrong data"<<endl;
     }
     system("pause");
-    // system("cls");//清空控制台窗口的内容
+    //清空控制台窗口的内容
 
 }
 WorkerManager::~WorkerManager(){
@@ -198,4 +198,46 @@ void WorkerManager::Show_Emp(){
     }
     system("pause");
     
+}
+void WorkerManager::Del_Emp(){
+    if (this->m_FileIsEmpty){
+        cout<<"no files"<<endl;
+    }else{
+        cout<<"input the id you want to delete"<<endl;
+        int id=0;
+        cin>>id;
+        int index=this->IsExist(id);
+        cout<<"index here is "<<index<<endl;
+        if (index!=-1){
+            delete this->m_EmpArray[index];
+            for (int i=index;i<this->m_EmpNum-1;i++){
+                this->m_EmpArray[i]=this->m_EmpArray[i+1];
+            }
+            this->m_EmpNum--;
+            this->save();
+            cout<<"you have deleted!"<<endl;
+
+        }
+        else{
+            cout<<"this person doesn't exist"<<endl;
+        }
+        
+    }
+    system("pause");
+    
+    
+}
+
+//按照编号判断职工是否存在，若存在则返回职工在数组中位置，不存在返回-1
+int WorkerManager::IsExist(int id){
+        int index=-1;
+        
+        for(int i=0;i<this->m_EmpNum;i++){
+            if (this->m_EmpArray[i]->m_ID==id){
+                cout << "Found employee with ID " << id << " at index " << i << endl; // 调试信息
+                index=i;
+                break;
+            }
+        }
+        return index;
 }

@@ -26,12 +26,17 @@ int main()
         switch(choice){
             case 0:
                 wm.exitSystem();
+                
             case 1:
                 wm.Add_Emp();
+                break;
             case 2:
                 wm.Show_Emp();
-            case 3:
                 break;
+            case 3:
+                wm.Del_Emp();
+                break;
+                
             case 4:
                 break;
             case 5:
@@ -41,7 +46,7 @@ int main()
             case 7:
                 break;
             default:
-                system("cls");
+                system("pause");
                 break;
     }
     }
