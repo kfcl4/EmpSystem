@@ -85,49 +85,66 @@ void WorkerManager::Add_Emp(){
             int id;
             string name;
             int dSelect;
+            int temp;
+
             cout<<"input the "<<i+1 << "employee 's id"<<endl;
-            cin>>id;
-            cin.ignore();//清除输入缓冲区中的换行符
-            cout<<"input the "<<i+1 << "employee 's name"<<endl;
-            getline(cin,name);//使用getline读取包含空格的名字
-
-            cout<<"input the employee 's department. 1 for employee, 2 for manager, 3 for boss"<<endl;
-            cin>>dSelect ;
-            cin.ignore();
-
-            Worker* worker=NULL;
-            switch (dSelect){
-                case 1:
-                    worker = new Employee(id, name,1);
-                    break;
-                case 2:
-                    worker = new Manager(id, name,2);
-                    break;
-                case 3:
-                    worker = new Boss(id, name,3);
-                    break;
-                default:
-                    break;
-            }
-            newSpace[this->m_EmpNum+i]=worker;//插入新位置
             
-        }
-        delete [] this->m_EmpArray;//释放原有空间
-        this->m_EmpArray=newSpace;
-        this->m_EmpNum=newSize;
-        this->m_FileIsEmpty=false;
-        cout<<"you have added " <<addNum<<"Employees"<<endl;
-        this->save();
-        cout<<"new input has been saved in file"<<endl;
+            cin>>temp;
+            if(this->IsExist(temp)!=-1){
+                cout<<"this person already exists"<<endl;
+            }else{
+                id=temp;
+                cin.ignore();//清除输入缓冲区中的换行符
+                cout<<"input the "<<i+1 << "employee 's name"<<endl;
+                getline(cin,name);//使用getline读取包含空格的名字
 
+                cout<<"input the employee 's department. 1 for employee, 2 for manager, 3 for boss"<<endl;
+                cin>>dSelect ;
+                cin.ignore();
+
+                Worker* worker=NULL;
+                switch (dSelect){
+                    case 1:
+                        worker = new Employee(id, name,1);
+                        break;
+                    case 2:
+                        worker = new Manager(id, name,2);
+                        break;
+                    case 3:
+                        worker = new Boss(id, name,3);
+                        break;
+                    default:
+                        break;
+            }
+                newSpace[this->m_EmpNum+i]=worker;//插入新位置
+            
+        
+                delete [] this->m_EmpArray;//释放原有空间
+                this->m_EmpArray=newSpace;
+                this->m_EmpNum=newSize;
+                this->m_FileIsEmpty=false;
+                cout<<"you have added " <<addNum<<"Employees"<<endl;
+                this->save();
+                cout<<"new input has been saved in file"<<endl;
+
+
+            }
+       
+        }
     }
     else{
         cout<<"wrong data"<<endl;
     }
     system("pause");
     //清空控制台窗口的内容
-
 }
+
+
+
+
+
+
+
 WorkerManager::~WorkerManager(){
     if (this->m_EmpArray!=NULL){
         delete [] this->m_EmpArray;
@@ -241,3 +258,132 @@ int WorkerManager::IsExist(int id){
         }
         return index;
 }
+
+void WorkerManager::Mod_Emp(){
+
+    if (this->m_FileIsEmpty){
+        cout<<"no such file or file is empty"<<endl;
+
+    }else{
+        cout<<"input the id you want to edit"<<endl;
+        int id;
+        cin>>id;
+        int ret=this->IsExist(id);
+        if (ret!=-1){
+
+            delete this->m_EmpArray[ret];
+            int newId=0;
+            string newName="";
+            int dSelect=0;
+            cout<<" there is an employee with id of "<< id <<" now input the new Id"<<endl;
+            cin>>newId;
+            cout<<"input new name"<<endl;
+            cin>>newName;
+            cout<<"input the role 1/2/3"<<endl;
+            cin>>dSelect;
+
+            Worker * worker=NULL;
+            switch(dSelect){
+            case 1:
+                    worker= new Employee(newId, newName,dSelect);
+                    break;
+            case 2:
+                    worker = new Manager(newId, newName,dSelect);
+                    break;
+            case 3:
+                    worker = new Boss(newId, newName,dSelect);
+                    break;
+            default:
+                    break;
+            }
+            this->m_EmpArray[ret]=worker;
+            cout<<"you have edited "<<this->m_EmpArray[ret]->m_DeptID<<endl;
+            this->save();
+
+
+        }
+        else{
+            cout<<"this id doesn't exist"<<endl;
+        }
+    }
+    system("pause");
+    system("cls");
+    }
+
+
+
+void WorkerManager::Find_Emp(){
+    if (this->m_FileIsEmpty){
+        cout<<"no such file or file is empty"<<endl;
+
+    }else{
+        cout<<"how do you want to search"<<endl;
+        cout<<"1. by id"<<endl;
+        cout<<"2. by name"<<endl;
+        int select=0;
+        cin>>select;
+        if (select==1){
+            int id;
+            cout<<"input the id you want to look up for"<<endl;
+            cin>>id;
+            int ret=this->IsExist(id);
+            if(ret!=-1){
+                cout<<"this employee's info:"<<endl;
+                this->m_EmpArray[ret]->showInfo();
+            }
+            else{
+                cout<<"this person doesn't exist!";
+            }
+        }
+        else if(select==2){
+            string name="";
+            cout<<"input the name you want to look up for"<<endl;
+            cin>>name;
+            bool flag=false;
+            for (int i=0;i<m_EmpNum;i++){
+                if (m_EmpArray[i]->m_Name==name){
+                    cout<<"this employee's info "<<m_EmpArray[i]->m_ID<<endl;
+                    
+                    this->m_EmpArray[i]->showInfo();
+                    flag=true;
+                }
+            }
+            if (flag==false){
+                cout<<"this person doesn't exist"<<endl;
+            }
+        }
+        else{
+            cout<<"wrong input"<<endl;
+
+
+        }
+    }
+    system("pause");
+    system("cls");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

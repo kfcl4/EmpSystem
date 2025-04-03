@@ -27,6 +27,8 @@ class WorkerManager{
         void Show_Emp();
         void Del_Emp();
         int IsExist(int id);
+        void Mod_Emp();
+        void Find_Emp();
 };
 
 

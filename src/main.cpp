@@ -38,8 +38,10 @@ int main()
                 break;
                 
             case 4:
+                wm.Mod_Emp();
                 break;
             case 5:
+                wm.Find_Emp();
                 break;
             case 6:
                 break;
