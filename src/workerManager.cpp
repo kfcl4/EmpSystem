@@ -370,7 +370,7 @@ void WorkerManager::Sort_Emp(){
         system("cls");
     }
     else{
-        cout<<"how do you want to sort?"<<endl;
+        cout<<"how do you want to sort??"<<endl;
         cout<<"1. by id"<<endl;
         cout<<"2. by name"<<endl;
         int select=0;
